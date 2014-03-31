@@ -1,8 +1,60 @@
+  var millisec = 0;
+  var millisec2 = 0;
+  var seconds = 0;
+  var presscount = 0;
+  var timer;
+
+  function display(){
+
+    if (millisec>=9){
+       millisec=0
+       seconds+=1
+    }
+    else
+       millisec+=1
+       var elem = document.getElementById("textDiv");
+       elem.textContent = seconds + "." + millisec;
+       timer = setTimeout("display()",100);
+
+  }
+  
+  function starttimer() {
+  if (presscount < 1)  {
+    clearTimeout(timer);
+    timer = 0;
+    millisec = 0;
+    millisec2 = 0;
+    seconds = 0;
+    display();	
+    presscount+=1;
+    }
+  }
+
+  function stoptimer() {
+  clearTimeout(timer);
+  timer = 0;
+  millisec = 0;
+  millisec2 = 0;
+  seconds = 0;
+  }
+
+  function resettimer() {
+  clearTimeout(timer);
+  timer = 0;
+  millisec = 0;
+  millisec2 = 0;
+  seconds = 0;
+  presscount = 0;	
+  var elem = document.getElementById("textDiv");
+  elem.textContent = seconds + "." + millisec;
+  }
+
 function HTMLActuator() {
   this.tileContainer    = document.querySelector(".tile-container");
   this.scoreContainer   = document.querySelector(".score-container");
   this.bestContainer    = document.querySelector(".best-container");
   this.messageContainer = document.querySelector(".game-message");
+  this.sharingContainer = document.querySelector(".score-sharing");
 
   this.score = 0;
 }
@@ -36,7 +88,11 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
 };
 
 // Continues the game (both restart and keep playing)
-HTMLActuator.prototype.continueGame = function () {
+HTMLActuator.prototype.continue = function () {
+  if (typeof ga !== "undefined") {
+    ga("send", "event", "game", "restart");
+  }
+
   this.clearMessage();
 };
 
@@ -47,8 +103,31 @@ HTMLActuator.prototype.clearContainer = function (container) {
 };
 
 HTMLActuator.prototype.addTile = function (tile) {
+  var text=new Array(22);
+  text[0] = " ";
+  text[1] = "Euclid";
+  text[2] = "Fermat";
+  text[3] = "Newton";
+  text[4] = "Euler";
+  text[5] = "Gauss";
+  text[6] = "Galois";
+  text[7] = "Cantor";
+  text[8] = "Hilbert";
+  text[9] = "Noether";
+  text[10] = "Erdos";
+  text[11] = "Tao";
+  text[12] = "Erdos";
+  text[13] = "Noether";
+  text[14] = "Hilbert";
+  text[15] = "Cantor";
+  text[16] = "Galois";
+  text[17] = "Gauss";
+  text[18] = "Euler";
+  text[19] = "Newton";
+  text[20] = "Fermat";
+  text[21] = "Euclid";
   var self = this;
-
+  var text2 = function (n) { var r = 0; while (n > 1) r++, n >>= 1; return r; }
   var wrapper   = document.createElement("div");
   var inner     = document.createElement("div");
   var position  = tile.previousPosition || { x: tile.x, y: tile.y };
@@ -57,12 +136,12 @@ HTMLActuator.prototype.addTile = function (tile) {
   // We can't use classlist because it somehow glitches when replacing classes
   var classes = ["tile", "tile-" + tile.value, positionClass];
 
-  if (tile.value > 2048) classes.push("tile-super");
+  if (tile.value > 524288) classes.push("tile-super");
 
   this.applyClasses(wrapper, classes);
 
   inner.classList.add("tile-inner");
-  inner.textContent = tile.value;
+  inner.innerHTML = text[text2(tile.value)];
 
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
@@ -88,6 +167,59 @@ HTMLActuator.prototype.addTile = function (tile) {
 
   // Put the tile on the board
   this.tileContainer.appendChild(wrapper);
+};  
+
+function HTMLActuator() {
+  this.tileContainer    = document.querySelector(".tile-container");
+  this.scoreContainer   = document.querySelector(".score-container");
+  this.bestContainer    = document.querySelector(".best-container");
+  this.messageContainer = document.querySelector(".game-message");
+  this.sharingContainer = document.querySelector(".score-sharing");
+
+  this.score = 0;
+}
+
+HTMLActuator.prototype.actuate = function (grid, metadata) {
+  var self = this;
+
+  window.requestAnimationFrame(function () {
+    self.clearContainer(self.tileContainer);
+
+    grid.cells.forEach(function (column) {
+      column.forEach(function (cell) {
+        if (cell) {
+          self.addTile(cell);
+        }
+      });
+    });
+
+    self.updateScore(metadata.score);
+    self.updateBestScore(metadata.bestScore);
+
+    if (metadata.terminated) {
+      if (metadata.over) {
+        self.message(false); // You lose
+      } else if (metadata.won) {
+        self.message(true); // You win!
+      }
+    }
+
+  });
+};
+
+// Continues the game (both restart and keep playing)
+HTMLActuator.prototype.continue = function () {
+  if (typeof ga !== "undefined") {
+    ga("send", "event", "game", "restart");
+  }
+
+  this.clearMessage();
+};
+
+HTMLActuator.prototype.clearContainer = function (container) {
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
 };
 
 HTMLActuator.prototype.applyClasses = function (element, classes) {
@@ -102,6 +234,8 @@ HTMLActuator.prototype.positionClass = function (position) {
   position = this.normalizePosition(position);
   return "tile-position-" + position.x + "-" + position.y;
 };
+  
+  
 
 HTMLActuator.prototype.updateScore = function (score) {
   this.clearContainer(this.scoreContainer);
@@ -125,11 +259,32 @@ HTMLActuator.prototype.updateBestScore = function (bestScore) {
 };
 
 HTMLActuator.prototype.message = function (won) {
+
+  stoptimer();
+  var random1 = Math.floor((Math.random() * ((2 + 1) - 0)) + 0);
+  var random2 = Math.floor((Math.random() * ((1 + 1) - 0)) + 0);
+
+  var mytxt1=new Array(3);
+  mytxt1[0]="Maybe you'll become the next great mathematician!";
+  mytxt1[1]="You may be the next great mathematician!";
+  mytxt1[2]="Congratulations! Even Gauss couldn't win this game!";
+
+  var mytxt2=new Array(2);
+  mytxt2[0]="Great mathematicians often fail many times before succeeding!";
+  mytxt2[1]="Great mathematicians don't easily give up!";
+
+  var text3 = function (m) { var r = 0; while (m > 1) r++, m >>= 1; return r; }
   var type    = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
+  var message = won ? mytxt1[random1] : mytxt2[random2];
+
+  if (typeof ga !== "undefined") {
+    ga("send", "event", "game", "end", type, this.score);
+  }
 
   this.messageContainer.classList.add(type);
   this.messageContainer.getElementsByTagName("p")[0].textContent = message;
+
+  this.clearContainer(this.sharingContainer);
 };
 
 HTMLActuator.prototype.clearMessage = function () {

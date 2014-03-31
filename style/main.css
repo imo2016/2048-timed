@@ -3,6 +3,9 @@ html, body {
   margin: 0;
   padding: 0;
   background: #faf8ef;
+  background-attachment: fixed;
+  background-image: url("http://i1129.photobucket.com/albums/m515/helsachan/2048_background-3.jpg");
+  background-repeat: repeat;
   color: #776e65;
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 18px; }
@@ -16,7 +19,7 @@ body {
   clear: both; }
 
 h1.title {
-  font-size: 80px;
+  font-size: 40px;
   font-weight: bold;
   margin: 0;
   display: block;
@@ -63,6 +66,22 @@ h1.title {
   color: white;
   margin-top: 8px;
   text-align: center; }
+
+.time-container {
+  position: relative;
+  min-width: 90px;
+  display: inline-block;
+  background: #bbada0;
+  padding: 15px 25px;
+  font-size: 25px;
+  height: 25px;
+  line-height: 47px;
+  font-weight: bold;
+  border-radius: 3px;
+  color: white;
+  margin-top: 8px;
+  text-align: center; }
+
   .score-container:after, .best-container:after {
     position: absolute;
     width: 100%;
@@ -73,7 +92,20 @@ h1.title {
     line-height: 13px;
     text-align: center;
     color: #eee4da; }
-  .score-container .score-addition, .best-container .score-addition {
+
+  .time-container:after {
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    left: 0;
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 13px;
+    text-align: center;
+    color: #eee4da; }
+
+
+  .score-container .score-addition, .best-container .score-addition, .time-container .score-addition {
     position: absolute;
     right: 30px;
     color: red;
@@ -94,6 +126,10 @@ h1.title {
 
 .best-container:after {
   content: "Best"; }
+
+.time-container:after {
+  content: "Time Spent"; }
+
 
 p {
   margin-top: 0;
@@ -173,10 +209,10 @@ hr {
     -moz-animation-fill-mode: both;
     animation-fill-mode: both; }
     .game-container .game-message p {
-      font-size: 60px;
+      font-size: 32px;
       font-weight: bold;
-      height: 60px;
-      line-height: 60px;
+      height: 32px;
+      line-height: 32px;
       margin-top: 222px; }
     .game-container .game-message .lower {
       display: block;
@@ -311,54 +347,72 @@ hr {
     text-align: center;
     font-weight: bold;
     z-index: 10;
-    font-size: 55px; }
+    font-size: 25px; }
   .tile.tile-2 .tile-inner {
     background: #eee4da;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+    @media screen and (max-width: 520px) {
+      .tile.tile-2 .tile-inner {
+        font-size: 15px; } }
   .tile.tile-4 .tile-inner {
     background: #ede0c8;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0); }
+    @media screen and (max-width: 520px) {
+      .tile.tile-4 .tile-inner {
+        font-size: 15px; } }
   .tile.tile-8 .tile-inner {
     color: #f9f6f2;
     background: #f2b179; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-8 .tile-inner {
+        font-size: 15px; } }
   .tile.tile-16 .tile-inner {
     color: #f9f6f2;
     background: #f59563; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-16 .tile-inner {
+        font-size: 15px; } }
   .tile.tile-32 .tile-inner {
     color: #f9f6f2;
     background: #f67c5f; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-32 .tile-inner {
+        font-size: 15px; } }
   .tile.tile-64 .tile-inner {
     color: #f9f6f2;
     background: #f65e3b; }
+    @media screen and (max-width: 520px) {
+      .tile.tile-64 .tile-inner {
+        font-size: 15px; } }
   .tile.tile-128 .tile-inner {
     color: #f9f6f2;
     background: #edcf72;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.2381), inset 0 0 0 1px rgba(255, 255, 255, 0.14286);
-    font-size: 45px; }
+    font-size: 25px; }
     @media screen and (max-width: 520px) {
       .tile.tile-128 .tile-inner {
-        font-size: 25px; } }
+        font-size: 15px; } }
   .tile.tile-256 .tile-inner {
     color: #f9f6f2;
     background: #edcc61;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.31746), inset 0 0 0 1px rgba(255, 255, 255, 0.19048);
-    font-size: 45px; }
+    font-size: 25px; }
     @media screen and (max-width: 520px) {
       .tile.tile-256 .tile-inner {
-        font-size: 25px; } }
+        font-size: 15px; } }
   .tile.tile-512 .tile-inner {
     color: #f9f6f2;
     background: #edc850;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.39683), inset 0 0 0 1px rgba(255, 255, 255, 0.2381);
-    font-size: 45px; }
+    font-size: 25px; }
     @media screen and (max-width: 520px) {
       .tile.tile-512 .tile-inner {
-        font-size: 25px; } }
+        font-size: 15px; } }
   .tile.tile-1024 .tile-inner {
     color: #f9f6f2;
     background: #edc53f;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.28571);
-    font-size: 35px; }
+    font-size: 25px; }
     @media screen and (max-width: 520px) {
       .tile.tile-1024 .tile-inner {
         font-size: 15px; } }
@@ -366,17 +420,10 @@ hr {
     color: #f9f6f2;
     background: #edc22e;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.55556), inset 0 0 0 1px rgba(255, 255, 255, 0.33333);
-    font-size: 35px; }
+    font-size: 25px; }
     @media screen and (max-width: 520px) {
       .tile.tile-2048 .tile-inner {
         font-size: 15px; } }
-  .tile.tile-super .tile-inner {
-    color: #f9f6f2;
-    background: #3c3a32;
-    font-size: 30px; }
-    @media screen and (max-width: 520px) {
-      .tile.tile-super .tile-inner {
-        font-size: 10px; } }
 
 @-webkit-keyframes appear {
   0% {
@@ -483,7 +530,7 @@ hr {
 
 .game-intro {
   float: left;
-  line-height: 42px;
+  margin-top: 50px; 
   margin-bottom: 0; }
 
 .restart-button {
@@ -522,6 +569,11 @@ hr {
     margin-top: 0;
     padding: 15px 10px;
     min-width: 40px; }
+
+  .time-container {
+    margin-top: 0;
+    padding: 15px 10px;
+    min-width: 80px; }
 
   .heading {
     margin-bottom: 10px; }
@@ -575,14 +627,14 @@ hr {
       -moz-animation-fill-mode: both;
       animation-fill-mode: both; }
       .game-container .game-message p {
-        font-size: 60px;
+        font-size: 20px;
         font-weight: bold;
         height: 60px;
-        line-height: 60px;
-        margin-top: 222px; }
+        line-height: 20px;
+        margin-top: 80px; }
       .game-container .game-message .lower {
         display: block;
-        margin-top: 59px; }
+        margin-top: 40px; }
       .game-container .game-message a {
         display: inline-block;
         background: #8f7a66;
@@ -701,11 +753,3 @@ hr {
 
   .tile .tile-inner {
     font-size: 35px; }
-
-  .game-message p {
-    font-size: 30px !important;
-    height: 30px !important;
-    line-height: 30px !important;
-    margin-top: 90px !important; }
-  .game-message .lower {
-    margin-top: 30px !important; } }
